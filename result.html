@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>结果展示界面</title>
+    <!-- 引入 echarts.js -->
+    <script src="https://cdn.staticfile.org/echarts/4.3.0/echarts.min.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+</head>
+<body>
+<!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+<table style="margin: 0;padding: 0;">
+        <td style="margin: 0;padding: 0;"><div id="main" style="width: 50vw;height:100vh;" ></div></td>
+        <td style="margin: 0;padding: 0;"><div id="main_another" style="width: 50vw;height:100vh;"></div></td>
+</table>
+
+
+<script type="text/javascript">
+    let myChartForTps = echarts.init(document.getElementById('main_another'));
+    let optionForTps = {
+        title:{
+            show: true,
+            text: "出块速率折线图"
+        },
+        legend: {
+            textStyle: {
+              //图例字体大小
+              fontSize: 20,
+            },
+        },
+        tooltip: {
+          trigger: 'axis'
+        },
+        xAxis: {
+            name: "时间",
+            type: 'category',
+            data: ['2000', '2001', '2002', '2003', '2004', '2005', '2006'],
+            axisLabel: {
+                fontSize: 15
+            }
+        },
+        yAxis: {
+            name: "速率",
+            type: 'value',
+            axisLabel: {
+                formatter: '{value} TPS',
+                fontSize: 15
+            }
+        },
+        series: [
+            {
+                name: "速率",
+                type: 'line',
+                yAxisIndex: 0,
+                data: [150, 230, 224, 218, 135, 147, 260],
+                lineStyle: {
+                    width: 4,
+                    color: "green"
+                },
+                smooth: true,
+                symbolSize: 10,
+                color: "green"
+            }
+        ],
+    }
+    myChartForTps.setOption(optionForTps)
+    // 基于准备好的dom，初始化echarts实例
+    let myChartForAttack = echarts.init(document.getElementById('main'));
+    // 指定图表的配置项和数据
+    let optionForAttack = {
+        title:{
+            show: true,
+            text: "攻击速率折线图"
+        },
+        legend: {
+            textStyle: {
+              //图例字体大小
+              fontSize: 20,
+            },
+        },
+        tooltip: {
+          trigger: 'axis'
+        },
+        xAxis: {
+            name: "时间",
+            type: 'category',
+            data: ['2000', '2001', '2002', '2003', '2004', '2005', '2006'],
+            axisLabel: {
+                fontSize: 15
+            }
+        },
+        yAxis: {
+            name: "速率",
+            type: 'value',
+            axisLabel: {
+                formatter: '{value} MBPS',
+                fontSize: 15
+            }
+        },
+        series: [
+            {
+                name: "速率",
+                type: 'line',
+                yAxisIndex: 0,
+                data: [150, 230, 224, 218, 135, 147, 260],
+                lineStyle: {
+                    width: 4
+                },
+                smooth: true,
+                symbolSize: 10,
+            }
+        ],
+
+    };
+    myChartForAttack.setOption(optionForAttack);
+    // 使用刚指定的配置项和数据显示图表。
+    setInterval(() => {
+        // 调用 axios 进行异步的数据的加载
+        axios({
+            url: "http://10.134.148.77:13000/data_get",
+            method: "get"
+        }).then((response) => {
+            // -------------- 进行攻击速率的获取 ----------------
+            let time_list = []
+            let value_list = []
+            let attack_rate_data = response.data["attack_rate"]
+            for (let item in attack_rate_data) {
+                time_list.push(item)
+                value_list.push(attack_rate_data[item])
+            }
+            optionForAttack.xAxis.data = time_list
+            optionForAttack.series[0].data = value_list
+            myChartForAttack.setOption(optionForAttack);
+            // -------------- 进行攻击速率的获取 ----------------
+
+            // -------------- 进行出块速率的获取 ----------------
+            let time_list_for_tps = []
+            let tps_list = []
+            let tps_rate = response.data["tps"]
+            for (let item in tps_rate) {
+                time_list_for_tps.push(item)
+                tps_list.push(tps_rate[item])
+            }
+            optionForTps.xAxis.data = time_list_for_tps
+            optionForTps.series[0].data = tps_list
+            myChartForTps.setOption(optionForTps)
+            // -------------- 进行出块速率的获取 ----------------
+        }).catch((response) => {
+            console.log("数据获取失败", response)
+        })
+    }, 1000)
+
+</script>
+</body>
+</html>

@@ -1,0 +1,56 @@
+default:
+  num_of_orbit: 4
+  sat_per_orbit: 4
+  consensus_group_col: 2  # 共识组轨道数
+  consensus_group_row: 2 # 共识组单轨卫星数
+  # 0:PBFT 1:H-PBFT 2:T-PBFT
+  consensus_protocol_type: 1
+  max_generated_subnet: 1000
+  base_network_address: 192.168.0.0/16
+  satellite_image_name: satellite-node
+  ground_image_name: ground_station
+  number_of_satellites: 400
+  base_url: http://10.134.180.171:2375
+  listening_port: 30000
+#  docker_cpu_limit: 5
+  access_image_name: accessauth:latest
+#  access_image_name: accessauth:v1.0.0
+  # -------------------------------------- 原来的配置 ------------------------------------------------
+
+#  abs_of_prepare: /home/lx/chainmaker/chainmaker-go/scripts/prepare.sh
+#  abs_of_crypto_config: /home/lx/chainmaker/chainmaker-go/build/crypto-config
+#  abs_of_testdata: /home/lx/chainmaker/chainmaker-go/tools/cmc/testdata
+#  abs_of_chainconfig: /home/lx/chainmaker/chainmaker-go/config/config_tpl/chainconfig
+#  abs_of_build_config: /home/lx/chainmaker/chainmaker-go/build/config
+#  abs_of_multi_node: /home/lx/chainmaker/chainmaker-go/scripts/docker/multi_node
+#  abs_of_cmc_dir: /home/lx/chainmaker/chainmaker-go/tools/cmc
+#  abs_of_frr_configuration: /home/lx/chainmaker/satellite_emulator/resources/frr
+#  abs_of_routes_configuration: /home/lx/chainmaker/satellite_emulator/resources/routes
+#  abs_of_address_configuration: /home/lx/chainmaker/satellite_emulator/resources/address
+#    # lai xin
+#  abs_of_existed_chainmaker_config: /home/lx/chainmaker/satellite_emulator/existed_config
+#  abs_of_constellation_config: /home/lx/chainmaker/satellite_emulator/resources/constellation_config.yml
+  # -------------------------------------- 原来的配置 ------------------------------------------------
+
+  # -------------------------------------- 现在的配置 ------------------------------------------------
+  # 生成节点配置
+  abs_of_node_config_generator: /home/lx/zeusnet-access/accessauth/config/tools/configutils
+  # 节点配置，同步至容器中
+  abs_of_multi_node: /home/lx/zeusnet-access/accessauth/scripts/docker/multi_node
+  # 曾经保存过的节点配置，避免重新生成
+  abs_of_existed_nodes_config: /home/lx/zeusnet-access/satellite_emulator/existed_config
+  # 星座的配置
+  abs_of_constellation_config: /home/lx/zeusnet-access/satellite_emulator/resources/constellation_config.yml
+  # lx new
+  abs_of_links_generator: /home/lx/zeusnet-access/accessauth/config/tools/linkgenerator
+
+  abs_of_frr_configuration: /home/lx/zeusnet-access/satellite_emulator/resources/frr
+  abs_of_routes_configuration: /home/lx/zeusnet-access/satellite_emulator/resources/routes
+  abs_of_address_configuration: /home/lx/zeusnet-access/satellite_emulator/resources/address
+  # -------------------------------------- 现在的配置 ------------------------------------------------
+
+  p2p_port: 11301
+  rpc_port: 12301
+  signal_port: 13301
+  topology_cn_node: 9
+  generate_leo_or_chain: chain

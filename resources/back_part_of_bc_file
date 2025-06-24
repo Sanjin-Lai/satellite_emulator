@@ -1,0 +1,43 @@
+
+# Trust members are members that do not need to be verified against trust roots.
+# trust_members:
+# Each trust member should specify: member info file path, org id, role, and tls node id if any.
+# - member_info: ""
+#   org_id: ""
+#   role: "consensus"
+##   node_id:  ""
+
+# Resource policies settings
+resource_policies:
+  - resource_name: CHAIN_CONFIG-NODE_ID_UPDATE
+    policy:
+      # Rule can be Any, All, Majority, Self...
+      rule: SELF
+      # The org id list, all organizations are need if here is null.
+      org_list:
+      # The role list
+      role_list:
+        - admin
+  - resource_name: CHAIN_CONFIG-TRUST_ROOT_ADD
+    policy:
+      rule: MAJORITY
+      org_list:
+      role_list:
+        - admin
+  - resource_name: CHAIN_CONFIG-CERTS_FREEZE
+    policy:
+      rule: ANY
+      org_list:
+      role_list:
+        - admin
+  - resource_name: CONTRACT_MANAGE-INIT_CONTRACT
+    policy:
+      rule: ANY
+      org_list:
+      role_list:
+
+# The disabled native contract list
+# Disable the system contract by specifying the system contract name
+# Can disabled native contract name contains CHAIN_CONFIG, CHAIN_QUERY, CERT_MANAGE, GOVERNANCE, MULTI_SIGN, PRIVATE_COMPUTE, DPOS_ERC20, DPOS_STAKE, CROSS_TRANSACTION, PUBKEY_MANAGE
+disabled_native_contract:
+# - CONTRACT_NAME

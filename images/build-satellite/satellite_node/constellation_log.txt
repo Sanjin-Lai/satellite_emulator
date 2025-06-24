@@ -1,0 +1,2 @@
+20240103 17:03:34 - MainProcess | MainThread | starter.__init__:16 - ERROR -hello
+20240103 17:03:49 - MainProcess | MainThread | starter.__init__:16 - ERROR -hello
